@@ -1,5 +1,6 @@
 package com.demas.dcpa.data.entity;
 
+import com.demas.dcpa.data.rol.ClientRoles;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
@@ -17,10 +18,20 @@ public class ClientGame {
     @ManyToOne
     Game game;
 
+    ClientRoles clientRol; //to keep developers withing scope of their own games
+
     public ClientGame(Client client, Game game) {
         this.client = client;
         this.game = game;
         this.date = new Date(System.currentTimeMillis());
+        this.clientRol = ClientRoles.CLIENT;
+    }
+
+    public ClientGame(Client client, Game game, ClientRoles clientRol) {
+        this.client = client;
+        this.game = game;
+        this.date = new Date(System.currentTimeMillis());
+        this.clientRol = clientRol;
     }
 
     public ClientGame() {}

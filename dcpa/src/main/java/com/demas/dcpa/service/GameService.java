@@ -17,8 +17,42 @@ public class GameService {
         this.gameRepository = gameRepository;
     }
 
-    public List<Game> findAllGamesByClient(Client client) {
-        Optional<Game> gameOpt = gameRepository.
+    public List<Game> findAllGames() {
+        return gameRepository.findAllGames();
+    }
+
+    public List<Game> findAllGamesByName(String name) {
+        return gameRepository.findAllGamesByName(name);
+    }
+
+    public Game findGameById(int id) {
+        Optional<Game> gameOpt =  gameRepository.findGameById(id);
+        if (gameOpt.isPresent()) {
+            return gameOpt.get();
+        } else {
+            throw new RuntimeException("Game not found");
+        }
+    }
+
+    public Game findGameByName(String name) {
+        Optional<Game> gameOpt =  gameRepository.findGameByName(name);
+        if (gameOpt.isPresent()) {
+            return gameOpt.get();
+        } else {
+            throw new RuntimeException("Game not found");
+        }
+    }
+
+    public boolean addGame(Game game) {
+        return gameRepository.addGame(game);
+    }
+
+    public boolean removeGame(Game game) {
+        return gameRepository.removeGame(game);
+    }
+
+    public boolean updateGame(Game game) {
+        return gameRepository.updateGame(game);
     }
 
 }
