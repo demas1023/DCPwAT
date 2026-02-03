@@ -1,6 +1,9 @@
 package com.demas.dcpa.service;
 
+import com.demas.dcpa.data.dto.ClientDTO;
 import com.demas.dcpa.data.entity.Client;
+import com.demas.dcpa.data.mapper.ClientMapper;
+import com.demas.dcpa.data.rol.ClientRoles;
 import com.demas.dcpa.repository.ClientRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -8,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -20,41 +24,72 @@ public class ClientService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<Client> findClientByEmail(String email) {
-        return clientRepository.findClientByEmail(email);
+    public ClientDTO findClientByEmail(String email) {
+        Optional<Client> clientOpt = clientRepository.findClientByEmail(email);
+        if(clientOpt.isPresent()) {
+            return ClientMapper.getClientDTO(clientOpt.get());
+        } else {
+            throw new RuntimeException("Client not found");
+        }
+
     }
 
-    public Client findClientByName(String name) {
+    public ClientDTO findClientByName(String name) {
         Optional<Client> clientOpt = clientRepository.findClientByName(name);
         if (clientOpt.isPresent()) {
-            return clientOpt.get();
+            return ClientMapper.getClientDTO(clientOpt.get());
         } else {
             throw new RuntimeException("Client not found");
         }
     }
 
-    public Optional<Client> findClientById(int id) {
-        return clientRepository.findClientById(id);
+    public ClientDTO findClientById(int id) {
+        Optional<Client> clientOpt = clientRepository.findClientById(id);
+        if (clientOpt.isPresent()) {
+            return ClientMapper.getClientDTO(clientOpt.get());
+        } else {
+            throw new RuntimeException("Client not found");
+        }
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    public List<Client> findAllClients() {
-        return clientRepository.findAllClients();
+    public List<ClientDTO> findAllClients() {
+        return clientRepository.findAllClients().stream()
+                .map(ClientMapper::getClientDTO)
+                .collect(Collectors.toList());
     }
 
 
 
-    public boolean addClient(Client client) { //TODO: Implement client creation
-        return clientRepository.addClient(client);
+    public boolean addClient(ClientDTO client, String password) {
+        Client clientEntity = ClientMapper.getClient(client);
+        clientEntity.setPassword(passwordEncoder.encode(password));
+        return clientRepository.addClient(clientEntity);
     }
 
     //TODO: IMPLEMENT SECURITY AKA ONLY THE SPECIFIC CLIENT CAN UPDATE/DELETE THIS
-    public boolean updateClient(Client client) { //TODO: Implement client update
-        return clientRepository.updateClient(client);
+    public boolean updateClient(ClientDTO client) {
+        Client clientEntity = ClientMapper.getClient(client);
+        Client clientDB = clientRepository.findClientByName(clientEntity.getNickname()).get(); //TODO: ensure no errors trough Optional.isPresent()
+        clientDB.setRol(clientEntity.getRol());
+        clientDB.setEmail(clientEntity.getEmail());
+        clientDB.setNickname(clientEntity.getNickname());
+        return clientRepository.updateClient(clientDB);
     }
 
-    public boolean deleteClient(Client client) {
-        return clientRepository.deleteClient(client);
+    public boolean updatePassword(ClientDTO client, String password) {
+        Client clientEntity = ClientMapper.getClient(client);
+        Client clientDB = clientRepository.findClientByName(clientEntity.getNickname()).get(); //TODO: ensure no errors trough Optional.isPresent()
+        clientDB.setRol(clientEntity.getRol());
+        clientDB.setEmail(clientEntity.getEmail());
+        clientDB.setNickname(clientEntity.getNickname());
+        clientEntity.setPassword(passwordEncoder.encode(password));
+        return clientRepository.updateClient(clientEntity);
+    }
+
+    public boolean deleteClient(ClientDTO client) {
+        Client clientDB = clientRepository.findClientByName(client.getNickname()).get(); //TODO: ensure no errors trough Optional.isPresent()
+        return clientRepository.deleteClient(clientDB);
     }
 
 }

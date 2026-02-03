@@ -15,7 +15,7 @@ public class Achievement {
     String icon;
     @ManyToOne
     Game game;
-    String element; //as found in the json
+    String element; //as found in the JSON
     int condition; //necessary amount for completion
     private boolean completed;
 

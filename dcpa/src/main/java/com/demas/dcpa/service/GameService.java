@@ -1,58 +1,69 @@
 package com.demas.dcpa.service;
 
+import com.demas.dcpa.data.dto.GameDTO;
 import com.demas.dcpa.data.entity.Client;
 import com.demas.dcpa.data.entity.Game;
+import com.demas.dcpa.data.mapper.GameMapper;
+import com.demas.dcpa.repository.ClientGameRepository;
 import com.demas.dcpa.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class GameService {
 
     private final GameRepository gameRepository;
+    private final ClientGameRepository clientGameRepository;
 
-    public GameService(final GameRepository gameRepository) {
+    public GameService(final GameRepository gameRepository, final ClientGameRepository clientGameRepository) {
         this.gameRepository = gameRepository;
+        this.clientGameRepository = clientGameRepository;
     }
 
-    public List<Game> findAllGames() {
-        return gameRepository.findAllGames();
+    public List<GameDTO> findAllGames() {
+        return gameRepository.findAllGames().stream()
+                .map(GameMapper::getGameDTO)
+                .collect(Collectors.toList());
     }
 
-    public List<Game> findAllGamesByName(String name) {
-        return gameRepository.findAllGamesByName(name);
+    public List<GameDTO> findAllGamesByName(String name) {
+        return gameRepository.findAllGamesByName(name).stream()
+                .map(GameMapper::getGameDTO)
+                .collect(Collectors.toList());
     }
 
-    public Game findGameById(int id) {
+    public GameDTO findGameById(int id) {
         Optional<Game> gameOpt =  gameRepository.findGameById(id);
         if (gameOpt.isPresent()) {
-            return gameOpt.get();
+            return GameMapper.getGameDTO(gameOpt.get());
         } else {
             throw new RuntimeException("Game not found");
         }
     }
 
-    public Game findGameByName(String name) {
+    public GameDTO findGameByName(String name) {
         Optional<Game> gameOpt =  gameRepository.findGameByName(name);
         if (gameOpt.isPresent()) {
-            return gameOpt.get();
+            return GameMapper.getGameDTO(gameOpt.get());
         } else {
             throw new RuntimeException("Game not found");
         }
     }
 
-    public boolean addGame(Game game) {
-        return gameRepository.addGame(game);
+    public boolean addGame(GameDTO game) { return gameRepository.addGame(GameMapper.getGame(game)); }
+
+    public boolean removeGame(GameDTO game) { return gameRepository.removeGame(GameMapper.getGame(game)); }
+
+    public boolean updateGame(GameDTO game) {
+        return gameRepository.updateGame(GameMapper.getGame(game));
     }
 
-    public boolean removeGame(Game game) {
-        return gameRepository.removeGame(game);
+    public List<GameDTO> findAllGamesByClient(Client client) {
+        return clientGameRepository.getClientGamesByClient(client).stream()
+                .map(clientGame -> GameMapper.getGameDTO(clientGame.getGame()))
+                .collect(Collectors.toList());
     }
-
-    public boolean updateGame(Game game) {
-        return gameRepository.updateGame(game);
-    }
-
 }

@@ -1,8 +1,7 @@
 package com.demas.dcpa.controller;
 
+import com.demas.dcpa.data.dto.GameDTO;
 import com.demas.dcpa.data.entity.Client;
-import com.demas.dcpa.data.entity.Game;
-import com.demas.dcpa.repository.ClientRepository;
 import com.demas.dcpa.service.AchivementService;
 import com.demas.dcpa.service.ClientService;
 import com.demas.dcpa.service.GameService;
@@ -45,7 +44,7 @@ public class ClientController {
     @GetMapping("/games")
     public String games(@PathVariable String clientName, Model model) {
         Client client = clientService.findClientByName(clientName);
-        List<Game> clientGames = gameService.findAllGamesByClient(client);
+        List<GameDTO> clientGames = gameService.findAllGamesByClient(client);
         model.addAttribute("clientGames", clientGames);
         model.addAttribute("client", client);
         model.addAttribute("clientName", clientName);
