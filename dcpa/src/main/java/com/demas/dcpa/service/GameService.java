@@ -1,13 +1,16 @@
 package com.demas.dcpa.service;
 
+import com.demas.dcpa.data.dto.ClientDTO;
 import com.demas.dcpa.data.dto.GameDTO;
 import com.demas.dcpa.data.entity.Client;
 import com.demas.dcpa.data.entity.Game;
+import com.demas.dcpa.data.mapper.ClientMapper;
 import com.demas.dcpa.data.mapper.GameMapper;
 import com.demas.dcpa.repository.ClientGameRepository;
 import com.demas.dcpa.repository.GameRepository;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -61,9 +64,15 @@ public class GameService {
         return gameRepository.updateGame(GameMapper.getGame(game));
     }
 
-    public List<GameDTO> findAllGamesByClient(Client client) {
-        return clientGameRepository.getClientGamesByClient(client).stream()
+    public List<GameDTO> findAllGamesByClient(ClientDTO client) {
+        return clientGameRepository.getClientGamesByClient(ClientMapper.getClient(client)).stream()
                 .map(clientGame -> GameMapper.getGameDTO(clientGame.getGame()))
+                .collect(Collectors.toList());
+    }
+
+    public List<GameDTO> findAllGamesByDateRange(Date startDate, Date endDate) {
+        return gameRepository.findAllGamesByDateRange(startDate, endDate).stream()
+                .map(GameMapper::getGameDTO)
                 .collect(Collectors.toList());
     }
 }

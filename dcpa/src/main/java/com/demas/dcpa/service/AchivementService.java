@@ -9,8 +9,6 @@ import com.demas.dcpa.data.mapper.ClientMapper;
 import com.demas.dcpa.data.mapper.GameMapper;
 import com.demas.dcpa.repository.AchievementRepository;
 import com.demas.dcpa.repository.ClientAchievementRepository;
-import com.demas.dcpa.repository.GameRepository;
-import com.demas.dcpa.repository.PublicationRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 

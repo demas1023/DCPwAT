@@ -4,6 +4,7 @@ import com.demas.dcpa.data.entity.Client;
 import com.demas.dcpa.data.entity.Game;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,4 +20,5 @@ public interface GameRepository {
 
     List<Game> findAllGames();
     List<Game> findAllGamesByName(String name);
+    List<Game> findAllGamesByDateRange(Date startDate, Date endDate);
 }

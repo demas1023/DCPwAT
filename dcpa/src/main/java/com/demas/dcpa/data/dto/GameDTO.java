@@ -1,14 +1,19 @@
 package com.demas.dcpa.data.dto;
 
+import javax.xml.crypto.Data;
+import java.sql.Date;
+
 public class GameDTO {
     String title;
     String description;
     String image;
+    Date dateAdded;
 
-    public GameDTO(String title, String description, String image) {
+    public GameDTO(String title, String description, String image, Date dateAdded) {
         this.title = title;
         this.description = description;
         this.image = image;
+        this.dateAdded = dateAdded;
     }
 
     public String getTitle() {
@@ -33,5 +38,13 @@ public class GameDTO {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Date getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(Date dateAdded) {
+        this.dateAdded = dateAdded;
     }
 }

@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 
+import java.sql.Date;
+
 @Entity
 public class Game {
     @Id @GeneratedValue
@@ -11,13 +13,15 @@ public class Game {
     String name;
     String description;
     String image;
+    Date addedDate;
 
     public Game() {}
 
-    public Game(String name, String description, String image) {
+    public Game(String name, String description, String image, Date addedDate) {
         this.name = name;
         this.description = description;
         this.image = image;
+        this.addedDate = addedDate;
     }
 
     public int getId() {
@@ -50,5 +54,13 @@ public class Game {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Date getAddedDate() {
+        return addedDate;
+    }
+
+    public void setAddedDate(Date addedDate) {
+        this.addedDate = addedDate;
     }
 }

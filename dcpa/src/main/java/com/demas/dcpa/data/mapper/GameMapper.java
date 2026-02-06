@@ -5,10 +5,10 @@ import com.demas.dcpa.data.entity.Game;
 
 public class GameMapper {
     public static GameDTO getGameDTO(Game game) {
-        return new GameDTO(game.getName(), game.getDescription(), game.getImage());
+        return new GameDTO(game.getName(), game.getDescription(), game.getImage(), game.getAddedDate());
     }
 
     public static Game getGame(GameDTO gameDTO) {
-        return new Game(gameDTO.getTitle(), gameDTO.getDescription(), gameDTO.getImage());
+        return new Game(gameDTO.getTitle(), gameDTO.getDescription(), gameDTO.getImage(), gameDTO.getDateAdded());
     }
 }
