@@ -33,4 +33,9 @@ public class HomeController {
         return "home/home";
     }
 
+    @GetMapping("/")
+    public String index(){
+        return "redirect:/home";
+    }
+
 }

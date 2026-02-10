@@ -3,10 +3,12 @@ package com.demas.dcpa.data.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.sql.Date;
 
 @Entity
+@Table(name = "game")
 public class Game {
     @Id @GeneratedValue
     int  id;

@@ -1,10 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Home | DCP</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.css}">
+    <script th:src="@{/js/bootstrap.bundle.js}"></script>
 </head>
 <body>
+
+    <div class="container">
+        <h2>HOME</h2>
+        <div th:replace="fragments/navbar :: navbar">
+
+        </div>
+        <div id="showcase" class="carousel slide" data-ride="carousel">
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#showcase" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#showcase" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#showcase" data-bs-slide-to="2"></button>
+            </div>
+            <div class="carousel-inner">
+
+            </div>
+        </div>
+        <div class="row">
+            <>
+        </div>
+
+    </div>
 
 </body>
 </html>

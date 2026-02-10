@@ -4,10 +4,12 @@ import com.demas.dcpa.data.rol.ClientRoles;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.sql.Date;
 
 @Entity
+@Table(name = "client_game")
 public class ClientGame {
     @Id
     Date date;

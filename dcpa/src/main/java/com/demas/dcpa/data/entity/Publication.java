@@ -1,14 +1,12 @@
 package com.demas.dcpa.data.entity;
 
 import com.demas.dcpa.data.rol.PublicationRol;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 import java.sql.Date;
 
 @Entity
+@Table(name = "publication")
 public class Publication {
 
     @Id

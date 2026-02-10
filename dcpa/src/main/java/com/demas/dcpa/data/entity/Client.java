@@ -1,16 +1,16 @@
 package com.demas.dcpa.data.entity;
 
 import com.demas.dcpa.data.rol.ClientRoles;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "client")
 public class Client {
 
     @Id
     @GeneratedValue
     int id;
+    @Enumerated(EnumType.STRING)
     ClientRoles rol;
     String nickname;
     String email;
